@@ -16,7 +16,7 @@
 [![Pandas](https://img.shields.io/badge/Pandas-en_memoria-150458?style=flat-square&logo=pandas&logoColor=white)](https://pandas.pydata.org)
 [![License](https://img.shields.io/badge/Licencia-MIT-22C55E?style=flat-square)](LICENSE)
 
- Chatbot conversacional que permite a cualquier persona del equipo consultar métricas operacionales en español — sin saber SQL ni Python.
+ Chatbot conversacional que permite a cualquier persona del equipo consultar métricas operacionales en español — sin necesidad de tener conocimientos en SQL y Python
 
 </div>
 
