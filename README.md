@@ -24,14 +24,15 @@ Chatbot conversacional que permite a cualquier persona del equipo consultar mét
 
 ## Demo del chatbot
 
-![Demo chatbot](img/GifDemoChatBot.gif)
-
+<div align="center">
+  <img src="img/GifDemoChatBot.gif" alt="Demo chatbot" width="700"/>
+</div>
 ---
 
 ## Reporte de insights automático
-
-![Demo insights](img/gifDemoInsight.gif)
-
+<div align="center">
+  <img src="img/gifDemoInsight.gif" alt="Demo insights" width="700"/>
+</div>
 ---
 
 ## ¿Qué es esto?
@@ -116,6 +117,8 @@ uvicorn main:app --reload
 
 ## Arquitectura
 
+Se separaro la generación de código de la interpretación para que el LLM nunca invente números — primero pandas calcula, luego el modelo interpreta. El fallback determinístico garantiza que el bot siga respondiendo aunque la API externa falle.
+
 ```
 Usuario
   └─► chat.html  (SPA vanilla JS · dark theme)
@@ -170,12 +173,4 @@ Para escalar a producción se agregaría:
 * **Railway / Render** — CI/CD desde GitHub con variables de entorno gestionadas
 * **Fine-tuning** — entrenamiento incremental sobre queries exitosos para reducir dependencia externa
 
----
 
-## Limitaciones conocidas
-
-| # | Limitación | Solución propuesta |
-|---|------------|-------------------|
-| 1 | **Sin persistencia** — el historial vive en el browser; al recargar se pierde | PostgreSQL + sesiones |
-| 2 | **Sin autenticación** — cualquier usuario con acceso a la URL puede usar el bot | JWT + rate limiting |
-| 3 | **Dataset estático** — los datos se cargan al inicio sin refresh automático | Endpoint de recarga o polling |
