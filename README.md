@@ -37,7 +37,7 @@ Chatbot conversacional que permite a cualquier persona del equipo consultar mét
 
 ## ¿Qué es esto?
 
-**Rappi Ops** convierte preguntas en lenguaje natural en análisis de datos ejecutivos. Pregunta sobre **Perfect Orders**, **Lead Penetration**, **Gross Profit UE** y más — y obtén tablas, gráficos e interpretaciones fundamentadas en datos reales, al instante.
+El chat-bot convierte preguntas en lenguaje natural en análisis de datos ejecutivos. Pregunta sobre **Perfect Orders**, **Lead Penetration**, **Gross Profit UE** y más — y obtén tablas, gráficos e interpretaciones fundamentadas en datos reales, al instante.
 
 ```
 "¿Cuáles son las 5 zonas con menor Perfect Orders en Colombia?"
