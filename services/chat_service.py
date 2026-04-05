@@ -152,7 +152,7 @@ El historial de la conversación se incluye en cada mensaje. Úsalo para resolve
             "qué zonas", "que zonas", "ranking", "análisis", "analisis",
             "explícame", "explicame", "recomendación", "recomendacion",
             "términos de negocio", "terminos de negocio", "basada en este",
-            "muéstrame", "muestrame", "dame una",
+            "muéstrame", "muestrame",
             "a que te refieres", "a qué te refieres", "que significa", "qué significa",
             "como funciona", "cómo funciona", "no entiendo", "ayuda", "help",
             "que quieres decir", "qué quieres decir", "como puedo", "cómo puedo",
@@ -161,7 +161,7 @@ El historial de la conversación se incluye en cada mensaje. Úsalo para resolve
             return False
         # Short/ambiguous tokens: require exact word match to avoid substring collisions
         in_scope_words = {
-            "top", "mayor", "menor", "peor", "mejor", "resultado",
+            "top", "mayor", "menor", "peor", "mejor", "resultado", "dame",
             "ar", "br", "cl", "co", "cr", "ec", "mx", "pe", "uy",
             "cuanto", "cuánto",
         }
