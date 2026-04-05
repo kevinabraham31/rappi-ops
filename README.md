@@ -44,7 +44,7 @@ git clone <URL_DEL_REPO> && cd rappi-chatbot
 python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 3 — Configurar API key de DeepSeek (opcional), tambien esta mi propia api key en el archivo .env para su uso para la prueba.
+# 3 — Configurar API key de DeepSeek (opcional).
 echo DEEPSEEK_API_KEY=sk-... > .env
 
 # 4 — Colocar el Excel en data/  (nombre exacto requerido por data_loader.py)
@@ -147,20 +147,8 @@ Para escalar a producción se agregaría:
 
 ---
 
-## 🟨 Limitaciones conocidas
 
-| # | Limitación | Solución propuesta |
-|---|------------|-------------------|
-| 1 | **Sin persistencia** — el historial vive en el browser; al recargar se pierde | 
-| 2 | **Sin autenticación** — cualquier usuario con acceso a la URL puede usar el bot | 
-| 3 | **Dataset estático** — los datos se cargan al inicio sin refresh automático |
-| 4 | **Sin tests** — falta cobertura de unit tests para fallbacks e insights |
-
-
----
-lo 
 <div align="center">
 
-Hecho con ♥ para el equipo de Ops · Rappi :3
 
 </div>
