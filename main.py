@@ -8,9 +8,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
 from services.chat_service import ChatService
@@ -21,6 +22,7 @@ app = FastAPI(title="Rappi Operations Intelligence")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app.mount("/img", StaticFiles(directory=os.path.join(BASE_DIR, "img")), name="img")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 data_bundle = load_data(BASE_DIR)
 chat_service = ChatService(
     data_bundle.df_metrics,
@@ -85,72 +87,17 @@ async def root():
     summary="Vista previa del dataset",
     description="Muestra las primeras 200 filas de cada hoja del Excel cargado (RAW_INPUT_METRICS y RAW_ORDERS) en formato HTML navegable. Útil para verificar que los datos se cargaron correctamente.",
 )
-async def view_excel():
+async def view_excel(request: Request):
     metrics_html = data_bundle.df_metrics.head(200).to_html(index=False, classes="excel-table", border=0)
     orders_html = data_bundle.df_orders.head(200).to_html(index=False, classes="excel-table", border=0)
-
-    html = f"""
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vista del Excel</title>
-  <style>
-    * {{ box-sizing: border-box; }}
-    body {{ font-family: 'Segoe UI', sans-serif; margin: 0; background: #0f0f0f; color: #ececec; }}
-    .page {{ padding: 24px; max-width: 1400px; margin: 0 auto; }}
-    .topbar {{ display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }}
-    .title h1 {{ margin: 0; font-size: 1.5rem; }}
-    .title p {{ margin: 6px 0 0; color: #999; }}
-    .actions {{ display: flex; gap: 10px; flex-wrap: wrap; }}
-    .btn {{ text-decoration: none; background: #ff441f; color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; }}
-    .btn.secondary {{ background: #1e1e1e; border: 1px solid #333; }}
-    .sheet {{ background: #161616; border: 1px solid #2a2a2a; border-radius: 14px; margin-bottom: 20px; overflow: hidden; }}
-    .sheet-header {{ padding: 14px 16px; border-bottom: 1px solid #2a2a2a; background: #1a1a1a; }}
-    .sheet-header h2 {{ margin: 0; font-size: 1rem; }}
-    .sheet-header p {{ margin: 6px 0 0; color: #888; font-size: 0.85rem; }}
-    .table-wrap {{ overflow: auto; max-height: 70vh; }}
-    table.excel-table {{ width: 100%; border-collapse: collapse; min-width: 900px; }}
-    table.excel-table th, table.excel-table td {{ padding: 10px 12px; border-bottom: 1px solid #2a2a2a; border-right: 1px solid #222; text-align: left; font-size: 0.82rem; white-space: nowrap; }}
-    table.excel-table th {{ position: sticky; top: 0; background: #202020; color: #fff; z-index: 1; }}
-    table.excel-table td {{ color: #d4d4d4; }}
-    .note {{ color: #888; font-size: 0.82rem; margin-bottom: 18px; }}
-  </style>
-</head>
-<body>
-  <div class="page">
-    <div class="topbar">
-      <div class="title">
-        <h1>Vista del Excel</h1>
-        <p>Archivo: {os.path.basename(data_bundle.data_path)}</p>
-      </div>
-      <div class="actions">
-        <a class="btn secondary" href="/">Volver al chat</a>
-        <a class="btn secondary" href="/insights" target="_blank" rel="noopener noreferrer">Ver reporte</a>
-        <a class="btn" href="/excel/download">Descargar Excel</a>
-      </div>
-    </div>
-    <div class="note">Se muestran las primeras 200 filas de cada hoja para revisión rápida en la demo.</div>
-    <section class="sheet">
-      <div class="sheet-header">
-        <h2>Hoja: RAW_INPUT_METRICS</h2>
-        <p>{len(data_bundle.df_metrics)} filas totales</p>
-      </div>
-      <div class="table-wrap">{metrics_html}</div>
-    </section>
-    <section class="sheet">
-      <div class="sheet-header">
-        <h2>Hoja: RAW_ORDERS</h2>
-        <p>{len(data_bundle.df_orders)} filas totales</p>
-      </div>
-      <div class="table-wrap">{orders_html}</div>
-    </section>
-  </div>
-</body>
-</html>
-"""
-    return HTMLResponse(html)
+    return templates.TemplateResponse("excel_view.html", {
+        "request": request,
+        "filename": os.path.basename(data_bundle.data_path),
+        "metrics_html": metrics_html,
+        "metrics_total": len(data_bundle.df_metrics),
+        "orders_html": orders_html,
+        "orders_total": len(data_bundle.df_orders),
+    })
 
 
 @app.get(
