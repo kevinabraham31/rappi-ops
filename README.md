@@ -181,6 +181,3 @@ Cobertura actual: guardrail de out-of-scope, fallbacks determinísticos, generac
 - **JWT + rate limiting** — autenticación por usuario
 - **Railway / Render** — CI/CD desde GitHub con variables de entorno gestionadas
 - **Fine-tuning** — entrenamiento incremental sobre queries exitosos para reducir dependencia del LLM externo
-
-
-
